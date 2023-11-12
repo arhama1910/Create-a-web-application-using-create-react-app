@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World Dapp</title>
+</head>
+<body>
+    <h1>Chat Dapp</h1>
+    <div>
+        <p>Current Message: <span id="message"></span></p>
+        <input type="text" id="newMessage" placeholder="New Message">
+        <button onclick="setMessage()">Update Message</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+    <script src="utils.js"></script>
+    <script>
+        // Function to update the message
+        async function setMessage() {
+            const newMessage = document.getElementById('newMessage').value;
+            const fromAccount = '0x07808DFf409c09cf33B6f238B22A1b3354c1c1aC'; // Replace with your Ethereum account address
+
+            try {
+                const transactionResult = await setMessage(newMessage, fromAccount);
+                console.log('Transaction Hash:', transactionResult.transactionHash);
+                // Reload the message
+                await displayMessage();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Function to display the current message
+        async function displayMessage() {
+            try {
+                const message = await getMessage();
+                document.getElementById('message').textContent = message;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Initialize the app
+        window.addEventListener('load', async () => {
+            try {
+                await displayMessage();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
